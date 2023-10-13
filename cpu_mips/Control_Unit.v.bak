@@ -1,0 +1,54 @@
+module Control_Unit(input [5:0]OP,Funct,
+					output reg RegWrite,RegDst ULASrc, Branch, Memwrite, MemtoReg, Jump,
+               output reg [2:0] ULAControl);
+
+	always@(*)begin	
+		if(OP == 6'b000000)begin
+          case(Funct)begin
+				6'd32:begin  RegWrite = 1; RegDst = 1; ULASrc = 0; ULAControl = 010; Branch = 0; MemWrite = 0; MemtoReg = 0; Jump = 0;end
+				6'd34:begin  RegWrite = 1; RegDst = 1; ULASrc = 0; ULAControl = 110; Branch = 0; MemWrite = 0; MemtoReg = 0; Jump = 0;end
+				6'd36:begin  RegWrite = 1; RegDst = 1; ULASrc = 0; ULAControl = 000; Branch = 0; MemWrite = 0; MemtoReg = 0; Jump = 0;end
+				6'd37:begin  RegWrite = 1; RegDst = 1; ULASrc = 0; ULAControl = 001; Branch = 0; MemWrite = 0; MemtoReg = 0; Jump = 0;end
+				6'd39:begin  RegWrite = 1; RegDst = 1; ULASrc = 0; ULAControl = 011; Branch = 0; MemWrite = 0; MemtoReg = 0; Jump = 0;end
+				6'd42:begin  RegWrite = 1; RegDst = 1; ULASrc = 0; ULAControl = 111; Branch = 0; MemWrite = 0; MemtoReg = 0; Jump = 0;end
+          endcase
+          end
+     else begin
+          case(OP)begin
+				6'd35:begin  RegWrite = 1; RegDst = 0; ULASrc = 1; ULAControl = 010; Branch = 0; MemWrite = 0; MemtoReg = 1; Jump = 0;end
+				6'd43:begin  RegWrite = 0; RegDst = 0; ULASrc = 1; ULAControl = 010; Branch = 0; MemWrite = 1; MemtoReg = 0; Jump = 0;end
+				6'd4:begin   RegWrite = 0; RegDst = 0; ULASrc = 0; ULAControl = 110; Branch = 1; MemWrite = 0; MemtoReg = 0; Jump = 0;end				
+				6'd8:begin   RegWrite = 1; RegDst = 0; ULASrc = 1; ULAControl = 010; Branch = 0; MemWrite = 0; MemtoReg = 0; Jump = 0;end
+				6'd2:begin   RegWrite = 0; RegDst = 0; ULASrc = 0; ULAControl = 000; Branch = 0; MemWrite = 0; MemtoReg = 0; Jump = 1;end
+          endcase
+			 end
+endmodule
+ 
+             
+module Program_Counter(input[7:0] PCin,
+                        input clk,
+                        output reg [7:0] PC);
+ 
+	always@(posedge clk)begin
+		PC<=PCin
+   end
+	
+endmodule
+             
+module ROM(input A[7:0],
+			output reg [31:0] RD);
+ 
+  always@(*)begin
+    case(A)begin
+	 8'd0:RD = 32’b_001000_00000_00001_00000_00000_000011;
+	 8'd1:RD = 32’b_001000_00000_00010_00000_00000_001001;
+	 8'd2:RD = 32’b_000000_00001_00010_00010_00000_100000;
+	 8'd3:RD = 32’b_000000_00001_00010_00011_00000_100100;
+	 8'd4:RD = 32’b_000000_00001_00010_00100_00000_100101;
+	 8'd5:RD = 32’b_000000_00001_00010_00101_00000_100111;
+	 8'd6:RD = 32’b_000000_00101_00100_00110_00000_101010;
+	 default?
+      endcase
+  end
+  
+endmodule 

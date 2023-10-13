@@ -1,0 +1,18 @@
+module ULA (input [7:0] a,b,
+            input [2:0] sel,
+            output reg z,
+            output reg [7:0] result);
+ 
+  always@(*)begin
+    case(sel)
+      3'b000:begin result = a&b; z = (~result)?1:0;end
+      3'b001:begin result = a|b; z = (~result)?1:0;end
+      3'b010:begin result = a+b;z = (~result)?1:0;end
+      3'b011:begin result = ~(a|b);z = (~result)?1:0;end
+      3'b110:begin result = a+~b+1;z = (~result)?1:0;end
+      3'b111:begin result = (a>b)?1:0;z = (~result)?1:0;end
+		default:begin result = result;  z = (~result)?1:0;end
+    endcase
+  end
+ 
+endmodule

@@ -1,0 +1,6 @@
+module Teste(input  K, 
+				output L);
+
+	assign LEDG = KEY;
+	
+endmodule

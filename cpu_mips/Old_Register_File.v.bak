@@ -1,0 +1,59 @@
+module Register_File(input [2:0]wa3,
+					output reg[7:0] S);
+					
+	module Decoder(input [2:0]E,
+					output reg[7:0] S);
+					
+		always@(*)begin
+	case(E)
+		3'b000:S=8'b00000001;
+		3'b001:S=8'b00000010;
+		3'b010:S=8'b00000100;
+		3'b011:S=8'b00001000;
+		3'b100:S=8'b00010000;
+		3'b101:S=8'b00100000;
+		3'b110:S=8'b01000000;
+		3'b111:S=8'b10000000;
+	endcase
+end
+endmodule
+	module MUX(input [7:0]a,b,c,d,e,f,g,h,
+			  input [3:0] sel,		  
+			  output reg[7:0] out );
+			  
+    always @(*) begin
+        case (sel)
+            4'd0: out = a;
+            4'd1: out = b;
+            4'd2: out = c;
+            4'd3: out = d;
+            4'd4: out = e;
+            4'd5: out = f;
+            4'd6: out = g;
+            4'd7: out = h;
+            default: out = {8{1'b1}};  
+        endcase
+		  
+    end
+	endmodule
+
+
+	module Register (input clk, enable, 
+					  input [7:0]data,local,
+					  output reg [7:0]s0,s1,s2,s3,s4,s5,s6,s7);
+					  
+	always@(posedge clk)begin
+		if(enable) 
+			case(local)
+				8'b00000001:s0=data;
+				8'b00000010:s1=data;
+				8'b00000100:s2=data;
+				8'b00001000:s3=data;
+				8'b00010000:s4=data;
+				8'b00100000:s5=data;
+				8'b01000000:s6=data;
+				8'b10000000:s7=data;
+			endcase
+	end
+	
+endmodule
